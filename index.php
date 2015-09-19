@@ -6,8 +6,6 @@ use Phalcon\DI\FactoryDefault;
 use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
 use Phalcon\Http\Response;
 
-require_once __DIR__.'/models/user.php';
-
 // Use Loader() to autoload our model
 $loader = new Loader();
 
@@ -40,7 +38,9 @@ $app->get('/', function () {
 
 // Retrieves all users
 $app->get('/user', function () use ($app, $di) {
-    echo json_encode(User::findFirst(1));
+    $result = $di['db']->query("SELECT * FROM user");
+    echo json_encode($result);
+    echo json_encode($result->fetchAll());
 });
 
 $app->notFound(function () use ($app) {
