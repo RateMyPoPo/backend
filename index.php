@@ -63,6 +63,8 @@ $app->post('/user', function () use ($di) {
 // Write an interaction
 $app->post('/interaction', function () use ($di) {
     $request = new Request();
+    error_log($request->getRawBody());
+    error_log(json_encode($_POST));
     $data = json_decode($request->getRawBody());
     error_log(json_encode($data));
 });
