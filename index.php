@@ -49,9 +49,7 @@ $app->get('/user/{id}', function ($id) use ($di) {
 // Creates a user
 $app->post('/user', function () use ($di) {
     $request = new Request();
-    error_log(json_encode($_POST));
-    error_log(json_encode($_REQUEST));
-
+    error_log($request->getRawBody());
     $data = json_decode($request->getRawBody());
     error_log($data['first_name']);
 //    $first_name = $_POST['first_name'];
