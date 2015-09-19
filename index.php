@@ -21,7 +21,7 @@ $di->set('db', function () {
     return new PdoMysql(
         array(
             "host"     => "localhost",
-            "username" => "user",
+            "username" => "root",
             "password" => "",
             "dbname"   => "fedup"
         )
@@ -36,14 +36,14 @@ $app->get('/', function () {
 });
 
 // Retrieves all users
-$app->get('/api/users', function () use ($app) {
+$app->get('/user', function () use ($app) {
     $phql = "SELECT * FROM user ORDER BY id";
-    $robots = $app->modelsManager->executeQuery($phql);
+    $users = $app->modelsManager->executeQuery($phql);
 
     $data = array();
-    foreach ($robots as $robot) {
+    foreach ($users as $user) {
         $data[] = array(
-            'id'   => $robot->id
+            'id'   => $user->id
         );
     }
 
