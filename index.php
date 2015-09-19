@@ -12,7 +12,7 @@ $loader = new Loader();
 
 //Register some namespaces
 $loader->registerNamespaces(array(
-    'Fedup\Models' => __DIR__.'models'
+    'Fedup\Models' => __DIR__.'/models/'
 ));
 
 $loader->register();
