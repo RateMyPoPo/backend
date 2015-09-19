@@ -60,6 +60,13 @@ $app->post('/user', function () use ($di) {
     return $response;
 });
 
+// Write an interaction
+$app->post('/interaction', function () use ($di) {
+    $request = new Request();
+    $data = json_decode($request->getRawBody());
+    error_log(json_encode($data));
+});
+
 // Write a user
 $app->options('/user', function () use ($di) {
     $response = new Response();
