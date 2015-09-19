@@ -31,6 +31,10 @@ $di->set('db', function () {
 // Create and bind the DI to the application
 $app = new Micro($di);
 
+$app->get('/say/welcome/{name}', function ($name) {
+    echo "<h1>Welcome $name!</h1>";
+});
+
 // Retrieves all users
 $app->get('/api/users', function () use ($app) {
     $phql = "SELECT * FROM user ORDER BY id";
