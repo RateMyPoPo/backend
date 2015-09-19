@@ -7,15 +7,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
 use Phalcon\Http\Response;
 use Phalcon\Http\Request;
 
-// Use Loader() to autoload our model
-$loader = new Loader();
-
-//Register some namespaces
-$loader->registerNamespaces(array(
-    'Fedup\Models' => __DIR__.'/models/'
-));
-
-$loader->register();
+require 'models/user.php';
 
 $di = new FactoryDefault();
 
@@ -25,7 +17,7 @@ $di->set('db', function () {
         array(
             "host"     => "localhost",
             "username" => "root",
-            "password" => "",
+            "password" => "root",
             "dbname"   => "fedup"
         )
     );
@@ -42,7 +34,7 @@ $app->get('/', function () {
 $app->get('/user/{id}', function ($id) use ($di) {
 //    $result = $di['db']->query("SELECT * FROM user where id = ".$id);
 //    $result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
-    $user = Fedup\Models\User::findFirst(1);
+    $user = User::findFirst(1);
     $response = new Response();
     $response->setContent(json_encode($user));
     return $response;
