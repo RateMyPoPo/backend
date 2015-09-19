@@ -37,8 +37,8 @@ $app->get('/', function () {
 });
 
 // Retrieves all users
-$app->get('/user', function () use ($di) {
-    $result = $di['db']->query("SELECT * FROM user");
+$app->get('/user/{id}', function ($id) use ($di) {
+    $result = $di['db']->query("SELECT * FROM user where id = ".$id);
     $result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
     $response = new Response();
     $response->setContent(json_encode($result->fetch()));
@@ -49,7 +49,5 @@ $app->notFound(function () use ($app) {
     $app->response->setStatusCode(404, "Not Found")->sendHeaders();
     echo 'This is crazy, but this page was not found!';
 });
-
-echo json_encode($_GET);
 
 $app->handle();
