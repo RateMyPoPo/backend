@@ -27,10 +27,10 @@ $di->set('db', function () {
 $app = new Micro($di);
 
 // Retrieves user by id
-$app->get('/user/{id}', function ($id) use ($di) {
+$app->get('/user/{username}', function ($username) use ($di) {
 //    $result = $di['db']->query("SELECT * FROM user where id = ".$id);
 //    $result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
-    $user = User::findFirst($id);
+    $user = User::findFirst('username='.$username);
     $response = new Response();
     $response->setContent(json_encode($user));
     return $response;
