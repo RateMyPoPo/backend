@@ -31,8 +31,8 @@ $di->set('db', function () {
 // Create and bind the DI to the application
 $app = new Micro($di);
 
-$app->get('/', function ($name) {
-    echo "<h1>Welcome $name!</h1>";
+$app->get('/', function () {
+    echo "<h1>Welcome!</h1>";
 });
 
 // Retrieves all users
@@ -55,5 +55,6 @@ $app->notFound(function () use ($app) {
     echo 'This is crazy, but this page was not found!';
 });
 
+echo json_encode($_GET);
 
 $app->handle();
