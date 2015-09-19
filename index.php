@@ -40,7 +40,7 @@ $app->get('/user/{id}', function ($id) use ($di) {
 $app->post('/user', function () use ($di) {
     $request = new Request();
     $data = json_decode($request->getRawBody());
-
+    error_log(json_encode($data));
     $user = new User();
     $user->first_name = $data->first_name;
     $user->last_name = $data->last_name;
