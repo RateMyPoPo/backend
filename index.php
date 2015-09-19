@@ -10,11 +10,12 @@ use Phalcon\Http\Request;
 // Use Loader() to autoload our model
 $loader = new Loader();
 
-$loader->registerDirs(
-    array(
-        __DIR__ . '/models/'
-    )
-)->register();
+//Register some namespaces
+$loader->registerNamespaces(array(
+    'Fedup\Models' => __DIR__.'models'
+));
+
+$loader->register();
 
 $di = new FactoryDefault();
 
@@ -39,10 +40,11 @@ $app->get('/', function () {
 
 // Retrieves user by id
 $app->get('/user/{id}', function ($id) use ($di) {
-    $result = $di['db']->query("SELECT * FROM user where id = ".$id);
-    $result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
+//    $result = $di['db']->query("SELECT * FROM user where id = ".$id);
+//    $result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
+    $user = Fedup\Models\User::findFirst(1);
     $response = new Response();
-    $response->setContent(json_encode($result->fetch()));
+    $response->setContent(json_encode($user));
     return $response;
 });
 
