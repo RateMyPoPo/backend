@@ -55,8 +55,8 @@ $app->post('/user', function () use ($di) {
     $response->setContent($user->id);
     $response->setHeader('Access-Control-Allow-Origin', '*');
     $response->setHeader('Access-Control-Allow-Headers', 'X-Requested-With');
-    $response->setHeader("Access-Control-Allow-Headers: Authorization");
-    $response->setHeader('Content-type: application/json');
+    $response->setHeader("Access-Control-Allow-Headers", "Authorization");
+    $response->setHeader("Content-type", "application/json");
     return $response;
 });
 
@@ -65,8 +65,8 @@ $app->options('/user', function () use ($di) {
     $response = new Response();
     $response->setHeader('Access-Control-Allow-Origin', '*');
     $response->setHeader('Access-Control-Allow-Headers', 'X-Requested-With');
-    $response->setHeader("Access-Control-Allow-Headers: Authorization");
-    $response->setHeader('Content-type: application/json');
+    $response->setHeader("Access-Control-Allow-Headers", "Authorization");
+    $response->setHeader("Content-type", "application/json");
     return $response;
 });
 
