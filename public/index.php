@@ -29,13 +29,13 @@ try {
     // Setup a base URI so that all generated URIs include the "tutorial" folder
     $di->set('url', function () {
         $url = new UrlProvider();
-        $url->setBaseUri('/backend/');
+        $url->setBaseUri('/');
         return $url;
     });
 
     // Handle the request
     $application = new Application($di);
-
+    echo "hello";
     echo $application->handle()->getContent();
 
 } catch (\Exception $e) {
