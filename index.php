@@ -40,6 +40,7 @@ $app->get('/user/{id}', function ($id) use ($di) {
 $app->post('/user', function () use ($di) {
     $request = new Request();
     $data = json_decode($request->getRawBody());
+
     $user = new User();
     $user->first_name = $data->first_name;
     $user->last_name = $data->last_name;
@@ -52,14 +53,20 @@ $app->post('/user', function () use ($di) {
 
     $response = new Response();
     $response->setContent($user->id);
-    $response->setHeader("Access-Control-Allow-Origin", "*");
+    $response->setHeader('Access-Control-Allow-Origin', '*');
+    $response->setHeader('Access-Control-Allow-Headers', 'X-Requested-With');
+    $response->setHeader("Access-Control-Allow-Headers: Authorization");
+    $response->setHeader('Content-type: application/json');
     return $response;
 });
 
 // Write a user
 $app->options('/user', function () use ($di) {
     $response = new Response();
-    $response->setHeader("Access-Control-Allow-Origin", "*");
+    $response->setHeader('Access-Control-Allow-Origin', '*');
+    $response->setHeader('Access-Control-Allow-Headers', 'X-Requested-With');
+    $response->setHeader("Access-Control-Allow-Headers: Authorization");
+    $response->setHeader('Content-type: application/json');
     return $response;
 });
 
