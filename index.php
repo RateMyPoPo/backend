@@ -39,6 +39,7 @@ $app->get('/', function () {
 $app->get('/user', function () use ($app, $di) {
     $result = $di['db']->query("SELECT * FROM user");
     echo json_encode(count($result));
+    echo json_encode($result->fetchAll());
 });
 
 $app->notFound(function () use ($app) {
