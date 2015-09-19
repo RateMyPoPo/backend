@@ -3,6 +3,7 @@
 use Phalcon\Loader;
 use Phalcon\Mvc\Micro;
 use Phalcon\DI\FactoryDefault;
+use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
 
 // Use Loader() to autoload our model
 $loader = new Loader();
@@ -13,43 +14,41 @@ $loader->registerDirs(
     )
 )->register();
 
-//Make a connection
-$connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
-    'host' => 'localhost',
-    'username' => 'root',
-    'password' => '',
-    'dbname' => 'fedup',
-));
+$di = new FactoryDefault();
 
-//Reconnect
-$connection->connect();
+// Set up the database service
+$di->set('db', function () {
+    return new PdoMysql(
+        array(
+            "host"     => "localhost",
+            "username" => "user",
+            "password" => "",
+            "dbname"   => "fedup"
+        )
+    );
+});
 
-$statement = $db->prepare('SELECT * FROM fedup.user');
-$result = $connection->executePrepared($statement);
+// Create and bind the DI to the application
+$app = new Micro($di);
 
-echo json_encode($result);
+$app->get('/say/welcome/{name}', function ($name) {
+    echo "<h1>Welcome $name!</h1>";
+});
 
-//// Create and bind the DI to the application
-//$app = new Micro($di);
-//
-//$app->get('/say/welcome/{name}', function ($name) {
-//    echo "<h1>Welcome $name!</h1>";
-//});
-//
-//// Retrieves all users
-//$app->get('/api/users', function () use ($app) {
-//    $phql = "SELECT * FROM user ORDER BY id";
-//    $robots = $app->modelsManager->executeQuery($phql);
-//
-//    $data = array();
-//    foreach ($robots as $robot) {
-//        $data[] = array(
-//            'id'   => $robot->id
-//        );
-//    }
-//
-//    echo json_encode($data);
-//});
-//
-//
-//$app->handle();
+// Retrieves all users
+$app->get('/api/users', function () use ($app) {
+    $phql = "SELECT * FROM user ORDER BY id";
+    $robots = $app->modelsManager->executeQuery($phql);
+
+    $data = array();
+    foreach ($robots as $robot) {
+        $data[] = array(
+            'id'   => $robot->id
+        );
+    }
+
+    echo json_encode($data);
+});
+
+
+$app->handle();
