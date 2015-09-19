@@ -36,7 +36,7 @@ $app->get('/', function () {
     echo "<h1>Welcome!</h1>";
 });
 
-// Retrieves all users
+// Retrieves user by id
 $app->get('/user/{id}', function ($id) use ($di) {
     $result = $di['db']->query("SELECT * FROM user where id = ".$id);
     $result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
@@ -44,6 +44,30 @@ $app->get('/user/{id}', function ($id) use ($di) {
     $response->setContent(json_encode($result->fetch()));
     return $response;
 });
+
+// Creates a user
+$app->post('/user', function () use ($di) {
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $result = $di['db']->query("INSERT INTO fedup.user VALUES ($first_name, $last_name)");
+});
+
+// Updates a user
+$app->post('/user/{id}', function ($id) use ($di) {
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $result = $di['db']->query("UPDATE user SET first_name=$first_name, last_name=$last_name WHERE id=$id");
+});
+
+// Retrieves interaction by id
+$app->get('/interaction/{id}', function ($id) use ($di) {
+    $result = $di['db']->query("SELECT * FROM interaction where id = ".$id);
+    $result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
+    $response = new Response();
+    $response->setContent(json_encode($result->fetch()));
+    return $response;
+});
+
 
 $app->notFound(function () use ($app) {
     $app->response->setStatusCode(404, "Not Found")->sendHeaders();
