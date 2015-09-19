@@ -37,8 +37,8 @@ $app->get('/', function () {
 
 // Retrieves all users
 $app->get('/user', function () use ($app, $di) {
-    $result = $di['db']->query("SELECT * FROM fedup.user");
-    echo json_encode($result);
+    $result = $di['db']->query("SELECT * FROM user");
+    echo json_encode(count($result));
 });
 
 $app->notFound(function () use ($app) {
