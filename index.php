@@ -36,18 +36,9 @@ $app->get('/', function () {
 });
 
 // Retrieves all users
-$app->get('/user', function () use ($app) {
-    $phql = "SELECT * FROM user ORDER BY id";
-    $users = $app->modelsManager->executeQuery($phql);
-
-    $data = array();
-    foreach ($users as $user) {
-        $data[] = array(
-            'id'   => $user->id
-        );
-    }
-
-    echo json_encode($data);
+$app->get('/user', function () use ($app, $di) {
+    $result = $di->query("SELECT * FROM fedup.user");
+    echo json_encode($result);
 });
 
 $app->notFound(function () use ($app) {
