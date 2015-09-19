@@ -49,9 +49,8 @@ $app->get('/user/{id}', function ($id) use ($di) {
 // Creates a user
 $app->post('/user', function () use ($di) {
     $request = new Request();
-    error_log($request->getRawBody());
     $data = json_decode($request->getRawBody());
-    error_log($data['first_name']);
+    error_log($data->first_name);
 //    $first_name = $_POST['first_name'];
 //    $last_name = $_POST['last_name'];
 //    $result = $di['db']->query("INSERT INTO fedup.user VALUES ($first_name, $last_name)");
