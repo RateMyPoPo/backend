@@ -37,10 +37,12 @@ $app->get('/', function () {
 });
 
 // Retrieves all users
-$app->get('/user', function () use ($app, $di) {
+$app->get('/user', function () use ($di) {
     $result = $di['db']->query("SELECT * FROM user");
-    $result->setFetchMode(Phalcon\Db::FETCH_OBJ)
-    echo json_encode($result->fetch());
+    $result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
+    $response = new Response();
+    $response->setContent(json_encode($result->fetch()));
+    return $response;
 });
 
 $app->notFound(function () use ($app) {
