@@ -37,7 +37,7 @@ $app->get('/', function () {
 
 // Retrieves all users
 $app->get('/user', function () use ($app, $di) {
-    $result = $di->query("SELECT * FROM fedup.user");
+    $result = $di['db']->query("SELECT * FROM fedup.user");
     echo json_encode($result);
 });
 
