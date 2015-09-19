@@ -73,7 +73,7 @@ $app->post('/interaction', function () use ($di) {
     $interaction->file_name = $data->file_name;
     $interaction->longitude = $data->longitude;
     $interaction->latitude = $data->latitude;
-    $interaction->timestamp = $data->timestamp;
+    $interaction->timestamp = date("Y-m-d", $data->timestamp);
 
     if ($interaction->save() == false) {
         foreach ($interaction->getMessages() as $message) {
