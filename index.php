@@ -56,6 +56,12 @@ $app->post('/user', function () use ($di) {
     return $response;
 });
 
+// Write a user
+$app->options('/user', function () use ($di) {
+    $response = new Response();
+    $response->setHeader("Access-Control-Allow-Origin", "*");
+    return $response;
+});
 
 $app->notFound(function () use ($app) {
     $app->response->setStatusCode(404, "Not Found")->sendHeaders();
