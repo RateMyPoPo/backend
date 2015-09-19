@@ -50,7 +50,7 @@ $app->get('/user/{id}', function ($id) use ($di) {
 $app->post('/user', function () use ($di) {
     $request = new Request();
     $data = json_decode($request->getRawBody());
-    $result = $di['db']->query("INSERT INTO fedup.user VALUES ($data->first_name, $data->last_name)");
+    $result = $di['db']->query("INSERT INTO fedup.user (first_name, last_name) VALUES ($data->first_name, $data->last_name)");
 });
 
 // Updates a user
