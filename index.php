@@ -39,8 +39,8 @@ $app->get('/', function () {
 // Retrieves all users
 $app->get('/user', function () use ($app, $di) {
     $result = $di['db']->query("SELECT * FROM user");
-    echo json_encode($result);
-    echo json_encode($result->fetchAll());
+    $result->setFetchMode(Phalcon\Db::FETCH_OBJ)
+    echo json_encode($result->fetch());
 });
 
 $app->notFound(function () use ($app) {
