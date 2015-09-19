@@ -4,6 +4,8 @@ use Phalcon\Loader;
 use Phalcon\Mvc\Micro;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
+use Phalcon\Http\Response;
+use Fedup\Models\User as User;
 
 // Use Loader() to autoload our model
 $loader = new Loader();
@@ -37,9 +39,7 @@ $app->get('/', function () {
 
 // Retrieves all users
 $app->get('/user', function () use ($app, $di) {
-    $result = $di['db']->query("SELECT * FROM user");
-    echo json_encode(count($result));
-    echo json_encode($result->fetchAll());
+    echo json_encode(User::findFirst(1));
 });
 
 $app->notFound(function () use ($app) {

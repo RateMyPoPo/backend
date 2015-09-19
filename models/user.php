@@ -1,5 +1,5 @@
 <?php
-
+namespace Fedup\Models;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Message;
 
