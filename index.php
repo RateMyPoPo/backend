@@ -31,7 +31,7 @@ $di->set('db', function () {
 // Create and bind the DI to the application
 $app = new Micro($di);
 
-$app->get('/say/welcome/{name}', function ($name) {
+$app->get('/', function ($name) {
     echo "<h1>Welcome $name!</h1>";
 });
 
