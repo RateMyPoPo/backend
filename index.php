@@ -26,15 +26,11 @@ $di->set('db', function () {
 // Create and bind the DI to the application
 $app = new Micro($di);
 
-$app->get('/', function () {
-    echo "<h1>Welcome!</h1>";
-});
-
 // Retrieves user by id
 $app->get('/user/{id}', function ($id) use ($di) {
 //    $result = $di['db']->query("SELECT * FROM user where id = ".$id);
 //    $result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
-    $user = User::findFirst(1);
+    $user = User::findFirst($id);
     $response = new Response();
     $response->setContent(json_encode($user));
     return $response;
@@ -47,7 +43,7 @@ $app->post('/user', function () use ($di) {
     $user = new User();
     $user->first_name = $data->first_name;
     $user->last_name = $data->last_name;
-    
+
     if ($user->save() == false) {
         foreach ($user->getMessages() as $message) {
             error_log($message, "\n");
@@ -56,22 +52,7 @@ $app->post('/user', function () use ($di) {
 
     $response = new Response();
     $response->setContent($user->id);
-    return $response;
-});
-
-// Updates a user
-$app->post('/user/{id}', function ($id) use ($di) {
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $result = $di['db']->query("UPDATE user SET first_name=$first_name, last_name=$last_name WHERE id=$id");
-});
-
-// Retrieves interaction by id
-$app->get('/interaction/{id}', function ($id) use ($di) {
-    $result = $di['db']->query("SELECT * FROM interaction where id = ".$id);
-    $result->setFetchMode(Phalcon\Db::FETCH_ASSOC);
-    $response = new Response();
-    $response->setContent(json_encode($result->fetch()));
+    $response->setHeader("Access-Control-Allow-Origin", "*");
     return $response;
 });
 
