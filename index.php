@@ -7,7 +7,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
 use Phalcon\Http\Response;
 use Phalcon\Http\Request;
 
-require 'models/user.php';
+require 'models/user.php'; //User
 
 $di = new FactoryDefault();
 
@@ -40,11 +40,23 @@ $app->get('/user/{id}', function ($id) use ($di) {
     return $response;
 });
 
-// Creates a user
+// Write a user
 $app->post('/user', function () use ($di) {
     $request = new Request();
     $data = json_decode($request->getRawBody());
-    $result = $di['db']->query("INSERT INTO user (first_name, last_name) VALUES ('$data->first_name', '$data->last_name')");
+    $user = new User();
+    $user->first_name = $data->first_name;
+    $user->last_name = $data->last_name;
+    
+    if ($user->save() == false) {
+        foreach ($user->getMessages() as $message) {
+            error_log($message, "\n");
+        }
+    }
+
+    $response = new Response();
+    $response->setContent($user->id);
+    return $response;
 });
 
 // Updates a user
