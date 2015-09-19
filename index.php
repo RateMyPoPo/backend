@@ -5,7 +5,8 @@ use Phalcon\Mvc\Micro;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
 use Phalcon\Http\Response;
-use Fedup\Models\User as User;
+
+require_once __DIR__.'/models/user.php';
 
 // Use Loader() to autoload our model
 $loader = new Loader();
