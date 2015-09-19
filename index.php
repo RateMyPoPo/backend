@@ -8,6 +8,8 @@ use Phalcon\Http\Response;
 use Phalcon\Http\Request;
 
 require 'models/user.php'; //User
+require 'models/interaction.php'; //User
+
 
 $di = new FactoryDefault();
 
@@ -63,10 +65,29 @@ $app->post('/user', function () use ($di) {
 // Write an interaction
 $app->post('/interaction', function () use ($di) {
     $request = new Request();
-    error_log($request->getRawBody());
-    error_log(json_encode($_POST));
     $data = json_decode($request->getRawBody());
     error_log(json_encode($data));
+
+    $interaction = new Interaction();
+    $interaction->username = $data->username;
+    $interaction->file_name = $data->file_name;
+    $interaction->longitude = $data->longitude;
+    $interaction->latitude = $data->latitude;
+    $interaction->timestamp = $data->timestamp;
+
+    if ($interaction->save() == false) {
+        foreach ($interaction->getMessages() as $message) {
+            error_log($message, "\n");
+        }
+    }
+
+    $response = new Response();
+    $response->setContent($interaction->id);
+    $response->setHeader('Access-Control-Allow-Origin', '*');
+    $response->setHeader('Access-Control-Allow-Headers', 'X-Requested-With');
+    $response->setHeader("Access-Control-Allow-Headers", "Authorization");
+    $response->setHeader("Content-type", "application/json");
+    return $response;
 });
 
 // Write a user
