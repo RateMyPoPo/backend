@@ -5,6 +5,7 @@ use Phalcon\Mvc\Micro;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
 use Phalcon\Http\Response;
+use Phalcon\Http\Request;
 
 // Use Loader() to autoload our model
 $loader = new Loader();
@@ -47,7 +48,8 @@ $app->get('/user/{id}', function ($id) use ($di) {
 
 // Creates a user
 $app->post('/user', function () use ($di) {
-    error_log(json_encode($_POST));
+    $request = new Request();
+    error_log($request->getRawBody());
 //    $first_name = $_POST['first_name'];
 //    $last_name = $_POST['last_name'];
 //    $result = $di['db']->query("INSERT INTO fedup.user VALUES ($first_name, $last_name)");
